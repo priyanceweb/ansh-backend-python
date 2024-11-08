@@ -2,7 +2,8 @@
 from flask import Flask, jsonify, request 
 import conversion
 from paddleocr import PaddleOCR
-  
+import os
+
 # creating a Flask app 
 app = Flask(__name__) 
 
@@ -34,6 +35,8 @@ def home():
 
     return conversion.search_tracking_and_invoice(text_values)
 # driver function 
-if __name__ == '__main__': 
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
   
     app.run(debug = True) 
