@@ -14,7 +14,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en') # need to run only once to downlo
 # returns hello world when we use GET. 
 # returns the data that we send when we use POST. 
 
-@app.route('/', methods = ['GET']) :
+@app.route('/', methods = ['GET'])
     return "Ok"
 
 @app.route('/upload-image', methods = ['POST']) 
