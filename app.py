@@ -15,6 +15,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='en') # need to run only once to downlo
 # returns the data that we send when we use POST. 
 
 @app.route('/', methods = ['GET'])
+def health_check():
     return "Ok"
 
 @app.route('/upload-image', methods = ['POST']) 
