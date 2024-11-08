@@ -5,3 +5,4 @@ paddlepaddle
 paddleocr
 albumentations
 gunicorn
+numpy
