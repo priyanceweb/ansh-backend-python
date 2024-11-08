@@ -9,7 +9,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Initialize the PaddleOCR model once, outside of the request handler
-ocr = PaddleOCR(use_angle_cls=True, lang='en', cpu_threads=4, use_gpu=False)
+ocr = PaddleOCR(use_angle_cls=True, lang='en', cpu_threads=2, use_gpu=False)
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -20,14 +20,17 @@ def process_image():
     # Get the uploaded file from the request
     file = request.files['file']
 
-    # Load the image using Pillow
-    image = Image.open(io.BytesIO(file.read()))
+    # Load the image using Pillow and convert to numpy array
+    image = np.array(Image.open(io.BytesIO(file.read())))
 
-    # Perform OCR on the image
-    result = ocr.ocr(np.array(image), cls=True)
+    # Perform OCR on the image in smaller chunks
+    result = []
+    for i in range(0, image.shape[0], 256):
+        chunk = image[i:i+256]
+        result.extend(ocr.ocr(chunk, cls=True)[0])
 
     # Extract the text values
-    text_values = [item[1][0] for item in result[0] if isinstance(item[1], tuple) and isinstance(item[1][0], str)]
+    text_values = [item[1][0] for item in result if isinstance(item[1], tuple) and isinstance(item[1][0], str)]
 
     return conversion.search_tracking_and_invoice(text_values)
 
