@@ -1,7 +1,7 @@
 # import necessary libraries and functions 
 from flask import Flask, jsonify, request 
 import conversion
-from paddleocr import PaddleOCR,draw_ocr
+from paddleocr import PaddleOCR
   
 # creating a Flask app 
 app = Flask(__name__) 
