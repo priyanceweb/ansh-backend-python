@@ -9,7 +9,7 @@ import numpy as np
 app = Flask(__name__)
 
 # Initialize the PaddleOCR model once, outside of the request handler
-ocr = PaddleOCR(use_angle_cls=True, lang='en', cpu_threads=2, use_gpu=False)
+ocr = PaddleOCR(use_angle_cls=False, lang='en', cpu_threads=1, use_gpu=False, det_db_score_mode='slow')
 
 @app.route('/', methods=['GET'])
 def health_check():
