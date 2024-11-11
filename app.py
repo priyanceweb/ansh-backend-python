@@ -23,10 +23,16 @@ def process_image():
     # Load the image using Pillow and convert to numpy array
     image = np.array(Image.open(io.BytesIO(file.read())))
 
+    # Get dimensions
+    height = image.shape[0]
+
+    # Extract bottom half of the image
+    bottom_half = image[height//2:, :]
+
     # Perform OCR on the image in smaller chunks
     result = []
-    for i in range(0, image.shape[0], 256):
-        chunk = image[i:i+256]
+    for i in range(0, bottom_half.shape[0], 128):
+        chunk = bottom_half[i:i+128]
         result.extend(ocr.ocr(chunk, cls=True)[0])
 
     # Extract the text values
